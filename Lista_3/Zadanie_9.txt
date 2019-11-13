@@ -1,0 +1,106 @@
+Bartosz Szpila
+i307554
+
+Zasada indukcji strukturalnej dla list i własności L:
+Jeśli L( NULL ) jest prawdą i dla dowolnej listy k, L(k) => L( cons( x, k )), (x jest dowolną wartością)
+To własność L jest spełniona dla dowolnej listy.
+
+-----------
+
+Podpunkt 1:
+
+Niech ys będzie dowolną listą, czyli (list? ys) jest prawdą.
+Pokażmy, że dla każdego xs, takiego że (list? xs) jest prawdą:
+
+(map f (append xs ys)) dla pewnej jednoargumentowej procedury f 
+oraz (append (map f xs) (map f ys)) mają tę samą wartość.
+Nazwijmy tę własność P.
+
+Pokażemy za pomocą zasady indukcji, że dla każdego xs takiego że (list? xs) i dowolnej ys takiej że (list? ys) zachodzi P.
+
+Dowód na zasadzie indukcji:
+
+Baza indukcji:
+	Dla null zachodzi (list? null) oraz:
+
+	(map f (append null ys)) = (map f ys) = (append null (map f ys)) = (append (map f null) (map f ys)) 
+	Zatem P(null) jest prawdą dla dowolnej listy ys.
+
+Krok indukcyjny:
+	Dla dowolnego ys takiego że (list? ys) jest prawdą, weźmy xs,
+	takie że (list? xs) i załóżmy że P(xs).
+
+	Pokażmy, że P( (cons w xs) ) dla dowolnej wartości w.
+
+	(map f (append (cons w xs) ys)) = (map f (cons w (append xs ys))) =
+	
+	= (cons (f w) (map f (append xs ys)))
+
+	Z założenia indukcyjnego wiemy, że P(xs), czyli:
+	(cons (f w) (map f (append xs ys))) = (cons (f w) (append (map f xs) (map f ys)))
+
+	Zatem prawdą jest P( (cons w xs) ) dla dowolnej listy ys.
+
+Za pomocą zasady indukcji, udowodniliśmy że, dla dowolnych list xs i ys:
+(map f (append xs ys)) dla pewnej jednoargumentowej procedury f 
+oraz (append (map f xs) (map f ys)) mają tę samą wartość.
+
+----------
+
+Podpunkt 2:
+
+Niech ys będzie dowolną listą, czyli (list? ys) jest prawdą.
+Pokażmy, że dla każdego xs, takiego że (list? xs) jest prawdą:
+
+(filter p? (append xs ys)), dla pewnego predykatu jednoargumentowego p?
+oraz (append (filter p? xs) (filter p? ys)) mają tę samą wartość.
+Nazwijmy tę własność R.
+
+Pokażemy za pomocą zasady indukcji, że dla każdego xs takiego że (list? xs) i dowolnej ys takiej że (list? ys) zachodzi R.
+
+Dowód na zasadzie indukcji:
+
+Baza indukcji:
+	Dla null zachodzi (list? null) oraz:
+
+	(filter p? (append null ys)) = (filter p? ys) = (append null (filter p? ys)) = (append (filter p? null) (filter p? ys)) 
+	Zatem R(null) jest prawdą dla dowolnej listy ys.
+
+Krok indukcyjny:
+	Rozważmy dwa przypadki:
+
+	1) Niech w - dowolna wartość taka, że (p? w) jest prawdą
+
+		Dla dowolnego ys takiego że (list? ys) jest prawdą, weźmy xs,
+		takie że (list? xs) i załóżmy że R(xs).
+	
+		Pokażmy, że R( (cons w xs) ).
+	
+		(filter p? (append (cons w xs) ys)) = (filter p? (cons w (append xs ys))) =
+		
+		= (filter p? (append xs ys)) 
+	
+		Z założenia indukcyjnego wiemy, że R(xs), czyli:
+		(filter p? (append xs ys)) = (append (filter p? xs) (filter p? ys))
+
+	Zatem prawdą jest R( (cons w xs) ) dla dowolnej listy ys i w, takiego że (p? w).
+
+	2) Niech w' - dowolna wartość taka, że (p? w') jest fałszem 
+
+		Dla dowolnego ys takiego że (list? ys) jest prawdą, weźmy xs,
+		takie że (list? xs) i załóżmy że R(xs).
+
+		Pokażmy, że R( (cons w' xs) ).
+
+		(filter p? (append (cons w' xs) ys)) = (filter p? (cons w' (append xs ys))) =
+		
+		= (cons w' (filter p? (append xs ys))) 
+	
+		Z założenia indukcyjnego wiemy, że R(xs), czyli:
+		(cons w' (filter p? (append xs ys)) = (cons w' (append (filter p? xs) (filter p? ys)))
+
+	Zatem prawdą jest R( (cons w' xs) ) dla dowolnej listy ys i w', takiego że nie (p? w').
+
+Za pomocą zasady indukcji, udowodniliśmy że, dla dowolnych list xs i ys:
+(filter p? (append xs ys)) dla pewnego jednoargumentowego predykatu p?
+oraz (append (filter p? xs) (filter p? ys)) mają tę samą wartość.
